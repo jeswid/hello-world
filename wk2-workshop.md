@@ -84,7 +84,8 @@ stocks %>%
   group_by(year) %>%
   summarise(yearly_total = sum(SPY_returns)) %>%
   ggplot(aes(x= year, y = yearly_total)) +
-  geom_col()
+  geom_col() + 
+  labs(title = "Yearly S&P Stocks Return from 2001 to 2023") + xlab("Year") + ylab("Annual S&P Stocks Returns")
 ```
 
 ![](wk2-workshop_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->
