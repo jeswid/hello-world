@@ -3,33 +3,79 @@ Week 2 lecture
 Jessica Widyawati
 2024-01-31
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax
-for authoring HTML, PDF, and MS Word documents. For more details on
-using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that
-includes both content as well as the output of any embedded R code
-chunks within the document. You can embed an R code chunk like this:
-
 ``` r
-summary(cars)
+library(tidyverse)
 ```
 
-    ##      speed           dist       
-    ##  Min.   : 4.0   Min.   :  2.00  
-    ##  1st Qu.:12.0   1st Qu.: 26.00  
-    ##  Median :15.0   Median : 36.00  
-    ##  Mean   :15.4   Mean   : 42.98  
-    ##  3rd Qu.:19.0   3rd Qu.: 56.00  
-    ##  Max.   :25.0   Max.   :120.00
+    ## Warning: package 'tidyverse' was built under R version 4.3.2
 
-## Including Plots
+    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+    ## ✔ dplyr     1.1.2     ✔ readr     2.1.4
+    ## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+    ## ✔ ggplot2   3.4.3     ✔ tibble    3.2.1
+    ## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+    ## ✔ purrr     1.0.2     
+    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ✖ dplyr::filter() masks stats::filter()
+    ## ✖ dplyr::lag()    masks stats::lag()
+    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
-You can also embed plots, for example:
+``` r
+library(lubridate)
+```
 
-![](wk2-workshop_files/figure-gfm/pressure-1.png)<!-- -->
+\#read stocks data
 
-Note that the `echo = FALSE` parameter was added to the code chunk to
-prevent printing of the R code that generated the plot.
+``` r
+stocks = readRDS("../data/wk2_stocks.rds")
+```
+
+``` r
+#cumulative returns of the SP stocks
+sum(stocks$SPY_returns)
+```
+
+    ## [1] 2.183304
+
+``` r
+#average daily returns of the SP index
+sum(stocks$SPY_returns)/(sum(!duplicated(stocks$date)))
+```
+
+    ## [1] 0.0003765616
+
+``` r
+mean(stocks$SPY_returns)
+```
+
+    ## [1] 0.0003765616
+
+``` r
+#standard deviation
+sd(stocks$SPY_returns)
+```
+
+    ## [1] 0.01221943
+
+plots
+
+``` r
+#prices of SP
+stocks %>% 
+  ggplot(aes(x = date, y = SPY_prices)) +
+  geom_line()
+```
+
+![](wk2-workshop_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+``` r
+#total yearly returns of SP from 2001 to 2023
+stocks %>% 
+  mutate(year = year(date))%>%
+  group_by(year) %>%
+  summarise(yearly_total = sum(SPY_returns)) %>%
+  ggplot(aes(x= year, y = yearly_total)) +
+  geom_line()
+```
+
+![](wk2-workshop_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->
