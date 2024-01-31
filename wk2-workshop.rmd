@@ -58,5 +58,4 @@ stocks %>%
   summarise(yearly_total = sum(SPY_returns)) %>%
   ggplot(aes(x= year, y = yearly_total)) +
   geom_col()
-
 ```
