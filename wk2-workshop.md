@@ -32,10 +32,10 @@ stocks = readRDS("../data/wk2_stocks.rds")
 
 ``` r
 #cumulative returns of the SP stocks
-sum(stocks$SPY_returns)
+sum(stocks$SPY_returns)*100
 ```
 
-    ## [1] 2.183304
+    ## [1] 218.3304
 
 ``` r
 #average daily returns of the SP index
@@ -45,17 +45,26 @@ sum(stocks$SPY_returns)/(sum(!duplicated(stocks$date)))
     ## [1] 0.0003765616
 
 ``` r
-mean(stocks$SPY_returns)
+mean(stocks$SPY_returns)*100
 ```
 
-    ## [1] 0.0003765616
+    ## [1] 0.03765616
 
 ``` r
 #standard deviation
-sd(stocks$SPY_returns)
+sd(stocks$SPY_returns)*100
 ```
 
-    ## [1] 0.01221943
+    ## [1] 1.221943
+
+- The cumulative returns of the S&P index during this period is
+  `sum(stocks$SPY_returns)*100`
+
+- The average daily returns of the S&P index during this period is
+  `mean(stocks$SPY_returns)*100`
+
+- The standard deviation of the daily returns of the S&P index during
+  this period is `sd(stocks$SPY_returns)*100`
 
 plots
 
@@ -75,7 +84,7 @@ stocks %>%
   group_by(year) %>%
   summarise(yearly_total = sum(SPY_returns)) %>%
   ggplot(aes(x= year, y = yearly_total)) +
-  geom_line()
+  geom_col()
 ```
 
 ![](wk2-workshop_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->
